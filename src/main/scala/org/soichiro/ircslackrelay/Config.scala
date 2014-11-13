@@ -35,13 +35,13 @@ object Config {
       val iconUrl: String = apiConf.getString("icon_url")
     }
 
+    val modifier: String = slackConf.getString("name_modifier")
   }
 
   def relays = Relays
   object Relays {
     private val relaysConf: util.List[_ <: com.typesafe.config.Config] = internalConf.getConfigList("relays")
     private val relays: mutable.Buffer[Relay] = relaysConf.asScala.map(c => Relay(c.getString("irc_channel"), c.getString("slack_channel")))
-    val modifier: String = internalConf.getString("name_modifier")
     val relaySeq: Seq[Relay] = relays.toSeq.map(r => Relay(r.ircChannel.toLowerCase, r.slackChannel.toLowerCase))
     val ircChannels: Seq[String] = relaySeq.map(_.ircChannel)
     val slackChannels: Seq[String] = relaySeq.map(_.slackChannel)

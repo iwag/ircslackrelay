@@ -30,7 +30,7 @@ class IrcToSlackActor extends Actor with ActorLogging {
   }
 
   private def modifiedName(name: String) = {
-    Config.relays.modifier.toLowerCase match {
+    Config.slack.modifier.toLowerCase match {
       case "replace" => replaceLastTwo(name)
       case _ =>  insertUnderScore(name)
     }
