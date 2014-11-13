@@ -5,6 +5,14 @@ package org.soichiro.ircslackrelay
  */
 object StringModifier {
 
+  def applyAtMinimumSize(string: String, func: (String=>String), size:Int = 1) ={
+    if (string.size > 1) {
+      func(string)
+    } else {
+      string
+    }
+  }
+
   /**
    * insert size zero space to string
    * @param string
@@ -29,6 +37,10 @@ object StringModifier {
     } else {
       string
     }
+  }
+
+  def replaceLastTwo(string: String, re:String = "..$", replacer:String ="**"):String = {
+    applyAtMinimumSize(string, s => (re.r.replaceAllIn(s, replacer)), 2)
   }
 
   /**

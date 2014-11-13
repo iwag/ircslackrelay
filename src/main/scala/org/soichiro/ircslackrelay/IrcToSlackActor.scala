@@ -29,11 +29,18 @@ class IrcToSlackActor extends Actor with ActorLogging {
       log.error("Not supported command.")
   }
 
+  private def modifiedName(name: String) = {
+    Config.relays.modifier.toLowerCase match {
+      case "replace" => replaceLastTwo(name)
+      case _ =>  insertUnderScore(name)
+    }
+  }
+
   private def createPostMessage(command: IrcCommand, isSandUnderscores: Boolean = false): String = {
     if(isSandUnderscores) {
-      sandUnderscores(s":${insertUnderScore(command.sender.getNick.toLowerCase)}: ${command.message}")
+      sandUnderscores(s":${modifiedName(command.sender.getNick.toLowerCase)}: ${command.message}")
     } else {
-      s":${insertUnderScore(command.sender.getNick.toLowerCase)}: ${command.message}"
+      s":${modifiedName(command.sender.getNick.toLowerCase)}: ${command.message}"
     }
   }
 
